@@ -1,4 +1,5 @@
 using BuildingBlocks.Behaviours;
+using Catalog.API.Helpers;
 using Catalog.API.Products.CreateProduct;
 using Catalog.API.Products.DeleteProduct;
 using Catalog.API.Products.GetProductByCategory;
@@ -18,6 +19,7 @@ builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssemblies(programAsm);
     config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+    config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
 });
 builder.Services.AddCarter(configurator: c =>
 {
@@ -66,5 +68,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    var appLifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
+    appLifetime.ApplicationStarted.Register(async () =>
+    {
+        using var scope = app.Services.CreateScope();
+        var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
+        await ProductSeedHelper.Seed(session);
+    });
 }
 app.Run();
