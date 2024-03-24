@@ -51,7 +51,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
             Status = StatusCodes.Status500InternalServerError,
             Detail = exception.StackTrace
         };
-        ILogger<Program>? logger = context.RequestServices.GetService<ILogger<Program>>();
+        ILogger<Program> logger = context.RequestServices.GetService<ILogger<Program>>()!;
         logger.LogError(exception, exception.Message);
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/problem+json";

@@ -3,7 +3,7 @@
 /// <summary>
 /// Handles the creation of a product.
 /// </summary>
-internal sealed class CreateProductHandler(IDocumentSession session, ILogger<CreateProductHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal sealed class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     /// <summary>
     /// Handles the creation of a product based on the provided command.

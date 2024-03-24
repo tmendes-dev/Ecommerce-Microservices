@@ -4,7 +4,7 @@ namespace Catalog.API.Products.GetProducts;
 /// <summary>
 /// Handles the retrieval of products based on the provided query.
 /// </summary>
-internal sealed class GetProductsQueryHandler(IDocumentSession session, ILogger<GetProductsQueryHandler> logger) : IQueryHandler<GetProductsQuery, GetProductsResult>
+internal sealed class GetProductsQueryHandler(IDocumentSession session) : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
     /// <summary>
     /// Handles the retrieval of products based on the provided query.

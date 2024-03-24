@@ -3,7 +3,7 @@ namespace Catalog.API.Products.UpdateProduct;
 /// <summary>
 /// Handles the command to update a product.
 /// </summary>
-internal sealed class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductCommandResult>
+internal sealed class UpdateProductCommandHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductCommandResult>
 {
     /// <summary>
     /// Handles the command to update a product.

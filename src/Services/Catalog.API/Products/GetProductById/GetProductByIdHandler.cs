@@ -3,7 +3,7 @@
 /// <summary>
 /// Handles the retrieval of a product by its identifier.
 /// </summary>
-internal sealed class GetProductByIdHandler(IDocumentSession session, ILogger<GetProductByIdHandler> logger) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
+internal sealed class GetProductByIdHandler(IDocumentSession session) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {
     /// <summary>
     /// Handles the retrieval of a product based on the provided query.

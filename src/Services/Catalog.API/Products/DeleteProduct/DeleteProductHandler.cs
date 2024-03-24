@@ -4,7 +4,7 @@ namespace Catalog.API.Products.DeleteProduct;
 /// <summary>
 /// Handles the command to delete a product.
 /// </summary>
-internal sealed class DeleteProductHandler(IDocumentSession session, ILogger<DeleteProductHandler> logger) : ICommandHandler<DeleteProductCommand, DeleteProductResult>
+internal sealed class DeleteProductHandler(IDocumentSession session) : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {
     /// <summary>
     /// Handles the command to delete a product.
