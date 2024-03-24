@@ -14,7 +14,6 @@ internal sealed class GetProductsByCategoryHandler(IDocumentSession session, ILo
     /// <returns>The result containing the retrieved products matching the category.</returns>
     public async Task<GetProductsByCategoryResult> Handle(GetProductsByCategoryQuery query, CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetProductsByCategoryHandler.Handle called with {@Query}", query);
         IReadOnlyList<Product> products = await session.Query<Product>()
                                             .Where(p => p.Category.Contains(query.Category)).ToListAsync(cancellationToken);
 

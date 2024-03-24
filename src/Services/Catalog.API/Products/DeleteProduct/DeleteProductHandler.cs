@@ -14,7 +14,6 @@ internal sealed class DeleteProductHandler(IDocumentSession session, ILogger<Del
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteProductHandler.Handle called with {@Command}", JsonSerializer.Serialize(command));
         session.Delete<Product>(command.Id);
         await session.SaveChangesAsync(cancellationToken);
         return new() { Success = true };

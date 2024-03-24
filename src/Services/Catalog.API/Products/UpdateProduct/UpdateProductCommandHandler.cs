@@ -13,8 +13,6 @@ internal sealed class UpdateProductCommandHandler(IDocumentSession session, ILog
     /// <returns>The result of the update operation.</returns>
     public async Task<UpdateProductCommandResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("UpdateProductCommandHandler.Handle called with {@Command}", JsonSerializer.Serialize(command));
-
         session.Update(command.Product);
         await session.SaveChangesAsync(cancellationToken);
         return new() { Product = command.Product };

@@ -13,7 +13,6 @@ internal sealed class CreateProductHandler(IDocumentSession session, ILogger<Cre
     /// <returns>The result of creating the product.</returns>
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductHandler.Handle called with {@Command}", JsonSerializer.Serialize(command));
 
         Product product = new()
         {
