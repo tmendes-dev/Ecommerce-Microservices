@@ -14,7 +14,7 @@ internal sealed class GetProductByIdHandler(IDocumentSession session, ILogger<Ge
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
         logger.LogInformation("GetProductByIdHandler.Handle called with {@Query}", JsonSerializer.Serialize(query));
-        Product? product = await session.LoadAsync<Product>(query.ProductId, cancellationToken);
+        Product? product = await session.LoadAsync<Product>(query.Id, cancellationToken);
         return new GetProductByIdResult() { Product = product };
     }
 }

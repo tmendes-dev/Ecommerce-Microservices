@@ -20,7 +20,7 @@ internal sealed record CreateProductCommand : ICommand<CreateProductResult>
     /// <summary>
     /// The image file of the product.
     /// </summary>
-    public string ImageFile { get; init; } = default!;
+    public required string ImageFile { get; init; }
     /// <summary>
     /// The price of the product.
     /// </summary>

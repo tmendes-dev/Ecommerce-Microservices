@@ -28,7 +28,7 @@ public class Product
     /// <summary>
     /// Gets or sets the file path of the product's image.
     /// </summary>
-    public string ImageFile { get; set; } = default!;
+    public required string ImageFile { get; set; }
 
     /// <summary>
     /// Gets or sets the price of the product.

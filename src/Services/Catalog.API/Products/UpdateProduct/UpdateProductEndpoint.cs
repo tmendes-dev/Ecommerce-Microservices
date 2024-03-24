@@ -14,7 +14,7 @@ internal sealed class UpdateProductEndpoint : ICarterModule
     {
         app.MapPut("/products", async (UpdateProductRequest request, ISender sender) =>
         {
-            GetProductByIdQuery query = new() { ProductId = request.Id };
+            GetProductByIdQuery query = new() { Id = request.Id };
             GetProductByIdResult product = await sender.Send(query);
             if (product.Product is null)
                 return Results.NotFound(request);

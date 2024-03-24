@@ -15,7 +15,6 @@ internal sealed class CreateProductHandler(IDocumentSession session, ILogger<Cre
     {
         logger.LogInformation("CreateProductHandler.Handle called with {@Command}", JsonSerializer.Serialize(command));
 
-        // Create a new product based on the command
         Product product = new()
         {
             Category = command.Category,

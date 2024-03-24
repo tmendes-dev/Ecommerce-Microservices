@@ -8,5 +8,5 @@ internal readonly record struct GetProductByIdQuery : IQuery<GetProductByIdResul
     /// <summary>
     /// Gets or initializes the unique identifier of the product to retrieve.
     /// </summary>
-    public required Guid ProductId { get; init; }
+    public required Guid Id { get; init; }
 }

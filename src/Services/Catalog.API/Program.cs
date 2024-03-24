@@ -1,23 +1,22 @@
+using BuildingBlocks.Behaviours;
 using Catalog.API.Products.CreateProduct;
 using Catalog.API.Products.DeleteProduct;
 using Catalog.API.Products.GetProductByCategory;
 using Catalog.API.Products.GetProductById;
 using Catalog.API.Products.GetProducts;
 using Catalog.API.Products.UpdateProduct;
-using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+Assembly programAsm = typeof(Program).Assembly;
+
+builder.Services.AddMarten(options => options.Connection(builder.Configuration.GetConnectionString("Database")!)).UseLightweightSessions();
+builder.Services.AddValidatorsFromAssembly(programAsm);
+builder.Services.AddMediatR(config =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "Catalog API",
-        Description = "An ASP.NET Core Web API for managing products items"
-    });
+    config.RegisterServicesFromAssemblies(programAsm);
+    config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 });
-builder.Services.AddHealthChecks();
 builder.Services.AddCarter(configurator: c =>
 {
     c.WithModule<CreateProductEndpoint>();
@@ -27,8 +26,14 @@ builder.Services.AddCarter(configurator: c =>
     c.WithModule<UpdateProductEndpoint>();
     c.WithModule<DeleteProductEndpoint>();
 });
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
-builder.Services.AddMarten(options => options.Connection(builder.Configuration.GetConnectionString("Database")!)).UseLightweightSessions();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", info: new()
+{
+    Version = "v1",
+    Title = "Catalog API",
+    Description = "An ASP.NET Core Web API for managing products items"
+}));
+builder.Services.AddHealthChecks();
 
 WebApplication app = builder.Build();
 app.MapCarter();
@@ -41,5 +46,3 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.Run();
-
-
