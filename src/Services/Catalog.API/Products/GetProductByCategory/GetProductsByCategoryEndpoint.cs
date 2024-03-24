@@ -11,7 +11,7 @@ internal class GetProductsByCategoryEndpoint : ICarterModule
     /// <param name="app">The endpoint route builder.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products/{category}", async (string category, ISender sender) =>
+        app.MapGet("/products/category/{category}", async (string category, ISender sender) =>
         {
             GetProductsByCategoryResult result = await sender.Send(new GetProductsByCategoryQuery() { Category = category });
             GetProductsByCategoryResponse response = result.Adapt<GetProductsByCategoryResponse>();
