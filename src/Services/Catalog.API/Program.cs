@@ -5,6 +5,8 @@ using Catalog.API.Products.GetProductByCategory;
 using Catalog.API.Products.GetProductById;
 using Catalog.API.Products.GetProducts;
 using Catalog.API.Products.UpdateProduct;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,26 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", info: new()
 builder.Services.AddHealthChecks();
 
 WebApplication app = builder.Build();
+app.UseExceptionHandler(exceptionHandlerApp =>
+{
+    exceptionHandlerApp.Run(async context =>
+    {
+        Exception? exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+        if (exception is null)
+            return;
+        ProblemDetails problemDetails = new()
+        {
+            Title = exception.Message,
+            Status = StatusCodes.Status500InternalServerError,
+            Detail = exception.StackTrace
+        };
+        ILogger<Program>? logger = context.RequestServices.GetService<ILogger<Program>>();
+        logger.LogError(exception, exception.Message);
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/problem+json";
+        await context.Response.WriteAsJsonAsync(problemDetails);
+    });
+});
 app.MapCarter();
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
