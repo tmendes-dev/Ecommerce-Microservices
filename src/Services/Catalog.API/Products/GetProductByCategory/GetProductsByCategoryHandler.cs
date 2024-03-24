@@ -17,7 +17,7 @@ internal class GetProductsByCategoryHandler(IDocumentSession session, ILogger<Ge
         logger.LogInformation("GetProductsByCategoryHandler.Handle called with {@Query}", query);
         IReadOnlyList<Product> products = await session.Query<Product>()
                                             .Where(p => p.Category.IndexOf(query.Category, 0, (int)StringComparison.OrdinalIgnoreCase) != -1)
-                                            .ToListAsync();
+                                            .ToListAsync(cancellationToken);
 
         return new() { Products = products };
     }

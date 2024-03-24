@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an endpoint for retrieving products by category.
 /// </summary>
-internal class GetProductByCategoryEndpoint : ICarterModule
+internal class GetProductsByCategoryEndpoint : ICarterModule
 {
     /// <summary>
     /// Adds routes for handling requests to retrieve products by category.

@@ -1,4 +1,5 @@
 using Catalog.API.Products.CreateProduct;
+using Catalog.API.Products.GetProductByCategory;
 using Catalog.API.Products.GetProductById;
 using Catalog.API.Products.GetProducts;
 using Microsoft.OpenApi.Models;
@@ -20,6 +21,7 @@ builder.Services.AddCarter(configurator: c =>
     c.WithModule<CreateProductEndpoint>();
     c.WithModule<GetProductsEndpoint>();
     c.WithModule<GetProductByIdEndpoint>();
+    c.WithModule<GetProductsByCategoryEndpoint>();
 });
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 builder.Services.AddMarten(options => options.Connection(builder.Configuration.GetConnectionString("Database")!)).UseLightweightSessions();
