@@ -4,7 +4,7 @@ namespace Catalog.API.Products.GetProductByCategory;
 /// <summary>
 /// Handles the retrieval of products by category.
 /// </summary>
-internal class GetProductsByCategoryHandler(IDocumentSession session, ILogger<GetProductsByCategoryHandler> logger) : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResult>
+internal sealed class GetProductsByCategoryHandler(IDocumentSession session, ILogger<GetProductsByCategoryHandler> logger) : IQueryHandler<GetProductsByCategoryQuery, GetProductsByCategoryResult>
 {
     /// <summary>
     /// Handles the retrieval of products based on the provided category query.

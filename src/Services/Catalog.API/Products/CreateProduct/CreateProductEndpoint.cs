@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an endpoint for creating a new product.
 /// </summary>
-internal class CreateProductEndpoint : ICarterModule
+internal sealed class CreateProductEndpoint : ICarterModule
 {
     /// <summary>
     /// Adds routes for handling requests to create a new product.

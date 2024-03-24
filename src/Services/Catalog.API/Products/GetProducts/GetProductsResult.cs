@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the result of retrieving products.
 /// </summary>
-public readonly record struct GetProductsResult
+internal readonly record struct GetProductsResult
 {
     /// <summary>
     /// Gets or initializes the list of products.

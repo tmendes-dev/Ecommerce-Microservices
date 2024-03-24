@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an endpoint for retrieving a list of products.
 /// </summary>
-internal class GetProductsEndpoint : ICarterModule
+internal sealed class GetProductsEndpoint : ICarterModule
 {
     /// <summary>
     /// Adds routes for handling requests to retrieve a list of products.

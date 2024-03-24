@@ -1,10 +1,13 @@
-﻿namespace Catalog.API.Products.CreateProduct;
-
+﻿namespace Catalog.API.Products.UpdateProduct;
 /// <summary>
-/// Represents a request to create a product.
+/// Represents a request to update a product.
 /// </summary>
-internal sealed record CreateProductRequest
+internal sealed record UpdateProductRequest
 {
+    /// <summary>
+    /// The unique identifier of the product.
+    /// </summary>
+    public required Guid Id { get; init; }
     /// <summary>
     /// The name of the product.
     /// </summary>
@@ -26,4 +29,3 @@ internal sealed record CreateProductRequest
     /// </summary>
     public required decimal Price { get; init; }
 }
-

@@ -1,7 +1,9 @@
 using Catalog.API.Products.CreateProduct;
+using Catalog.API.Products.DeleteProduct;
 using Catalog.API.Products.GetProductByCategory;
 using Catalog.API.Products.GetProductById;
 using Catalog.API.Products.GetProducts;
+using Catalog.API.Products.UpdateProduct;
 using Microsoft.OpenApi.Models;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,8 @@ builder.Services.AddCarter(configurator: c =>
     c.WithModule<GetProductsEndpoint>();
     c.WithModule<GetProductByIdEndpoint>();
     c.WithModule<GetProductsByCategoryEndpoint>();
+    c.WithModule<UpdateProductEndpoint>();
+    c.WithModule<DeleteProductEndpoint>();
 });
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 builder.Services.AddMarten(options => options.Connection(builder.Configuration.GetConnectionString("Database")!)).UseLightweightSessions();

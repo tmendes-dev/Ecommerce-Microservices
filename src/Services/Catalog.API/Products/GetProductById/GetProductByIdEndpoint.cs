@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an endpoint for retrieving product information by its unique identifier.
 /// </summary>
-internal class GetProductByIdEndpoint : ICarterModule
+internal sealed class GetProductByIdEndpoint : ICarterModule
 {
     /// <summary>
     /// Adds routes for handling requests to retrieve product information by ID.

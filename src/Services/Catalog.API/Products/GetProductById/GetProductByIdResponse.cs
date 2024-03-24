@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the result of retrieving a product by its identifier.
 /// </summary>
-public readonly record struct GetProductByIdResponse
+internal readonly record struct GetProductByIdResponse
 {
     /// <summary>
     /// Gets or initializes the retrieved product.
