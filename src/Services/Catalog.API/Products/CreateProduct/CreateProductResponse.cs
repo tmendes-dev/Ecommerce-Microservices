@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a response after creating a product.
 /// </summary>
-public readonly record struct CreateProductResponse
+internal readonly record struct CreateProductResponse
 {
     /// <summary>
     /// The unique identifier of the created product.

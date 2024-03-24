@@ -16,6 +16,6 @@ public class GetProductsQueryHandler(IDocumentSession session, ILogger<GetProduc
     {
         logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
         IReadOnlyList<Product> products = await session.Query<Product>().ToListAsync(cancellationToken);
-        return new GetProductsResult() { Products = products };
+        return new() { Products = products };
     }
 }

@@ -1,7 +1,4 @@
-﻿
-using System.Text.Json;
-
-namespace Catalog.API.Products.GetProductById;
+﻿namespace Catalog.API.Products.GetProductById;
 
 /// <summary>
 /// Handles the retrieval of a product by its identifier.
@@ -17,7 +14,7 @@ public class GetProductByIdHandler(IDocumentSession session, ILogger<GetProductB
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
         logger.LogInformation("GetProductByIdHandler.Handle called with {@Query}", JsonSerializer.Serialize(query));
-        Product? product = await session.LoadAsync<Product>(query.ProductId);
+        Product? product = await session.LoadAsync<Product>(query.ProductId, cancellationToken);
         return new GetProductByIdResult() { Product = product };
     }
 }

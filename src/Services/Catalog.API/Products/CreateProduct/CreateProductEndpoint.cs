@@ -1,7 +1,14 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
 
+/// <summary>
+/// Represents an endpoint for creating a new product.
+/// </summary>
 internal class CreateProductEndpoint : ICarterModule
 {
+    /// <summary>
+    /// Adds routes for handling requests to create a new product.
+    /// </summary>
+    /// <param name="app">The endpoint route builder.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/products", async (CreateProductRequest request, ISender sender) =>
@@ -15,8 +22,8 @@ internal class CreateProductEndpoint : ICarterModule
         .WithName("CreateProduct")
         .Produces<CreateProductResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("CreateProduct")
-        .WithDescription("CreateProduct")
+        .WithSummary("Create Product")
+        .WithDescription("Handles requests to create a new product.")
         .WithOpenApi();
     }
 }

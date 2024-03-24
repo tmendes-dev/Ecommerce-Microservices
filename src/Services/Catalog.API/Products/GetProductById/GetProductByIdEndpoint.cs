@@ -1,9 +1,14 @@
-﻿using Catalog.API.Products.GetProducts;
+﻿namespace Catalog.API.Products.GetProductById;
 
-namespace Catalog.API.Products.GetProductById;
-
+/// <summary>
+/// Represents an endpoint for retrieving product information by its unique identifier.
+/// </summary>
 internal class GetProductByIdEndpoint : ICarterModule
 {
+    /// <summary>
+    /// Adds routes for handling requests to retrieve product information by ID.
+    /// </summary>
+    /// <param name="app">The endpoint route builder.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/products/{id}", async (Guid id, ISender sender) =>
@@ -12,12 +17,12 @@ internal class GetProductByIdEndpoint : ICarterModule
             GetProductByIdResponse response = result.Adapt<GetProductByIdResponse>();
             return response.Product is null ? Results.NotFound(id) : Results.Ok(response);
         })
-        .WithName("GetProducById")
-        .Produces<GetProductsResponse>(StatusCodes.Status200OK)
+        .WithName("GetProductById")
+        .WithSummary("Retrieve Product by ID")
+        .WithDescription("Handles requests to retrieve product information by its unique identifier.")
+        .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("GetProducById")
-        .WithDescription("GetProducById")
         .WithOpenApi();
     }
 }

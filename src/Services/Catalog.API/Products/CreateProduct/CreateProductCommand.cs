@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a command to create a product.
 /// </summary>
-public record CreateProductCommand : ICommand<CreateProductResult>
+internal record CreateProductCommand : ICommand<CreateProductResult>
 {
     /// <summary>
     /// The name of the product.

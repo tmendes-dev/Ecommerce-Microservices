@@ -1,7 +1,14 @@
 ﻿namespace Catalog.API.Products.GetProducts;
 
+/// <summary>
+/// Represents an endpoint for retrieving a list of products.
+/// </summary>
 internal class GetProductsEndpoint : ICarterModule
 {
+    /// <summary>
+    /// Adds routes for handling requests to retrieve a list of products.
+    /// </summary>
+    /// <param name="app">The endpoint route builder.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/products", async (ISender sender) =>
@@ -13,8 +20,8 @@ internal class GetProductsEndpoint : ICarterModule
         .WithName("GetProducts")
         .Produces<GetProductsResponse>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)
-        .WithSummary("GetProducts")
-        .WithDescription("GetProducts")
+        .WithSummary("Get Products")
+        .WithDescription("Handles requests to retrieve a list of products.")
         .WithOpenApi();
     }
 }

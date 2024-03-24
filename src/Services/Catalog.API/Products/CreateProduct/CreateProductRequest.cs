@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a request to create a product.
 /// </summary>
-public record CreateProductRequest
+internal record CreateProductRequest
 {
     /// <summary>
     /// The name of the product.
