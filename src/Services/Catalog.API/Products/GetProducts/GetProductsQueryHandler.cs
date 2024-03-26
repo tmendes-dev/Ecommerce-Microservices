@@ -1,4 +1,6 @@
 ﻿
+using Marten.Pagination;
+
 namespace Catalog.API.Products.GetProducts;
 
 /// <summary>
@@ -14,7 +16,7 @@ internal sealed class GetProductsQueryHandler(IDocumentSession session) : IQuery
     /// <returns>The result containing the retrieved products.</returns>
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
-        IReadOnlyList<Product> products = await session.Query<Product>().ToListAsync(cancellationToken);
+        IPagedList<Product> products = await session.Query<Product>().ToPagedListAsync(query.PageNumber, query.PageSize, cancellationToken);
         return new() { Products = products };
     }
 }

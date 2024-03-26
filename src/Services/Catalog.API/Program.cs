@@ -6,14 +6,18 @@ using Catalog.API.Products.GetProductByCategory;
 using Catalog.API.Products.GetProductById;
 using Catalog.API.Products.GetProducts;
 using Catalog.API.Products.UpdateProduct;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-Assembly programAsm = typeof(Program).Assembly;
 
-builder.Services.AddMarten(options => options.Connection(builder.Configuration.GetConnectionString("Database")!)).UseLightweightSessions();
+Assembly programAsm = typeof(Program).Assembly;
+string dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
+
+builder.Services.AddHealthChecks().AddNpgSql(dbConnectionString);
+builder.Services.AddMarten(options => options.Connection(dbConnectionString)).UseLightweightSessions();
 builder.Services.AddValidatorsFromAssembly(programAsm);
 builder.Services.AddMediatR(config =>
 {
@@ -37,7 +41,6 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", info: new()
     Title = "Catalog API",
     Description = "An ASP.NET Core Web API for managing products items"
 }));
-builder.Services.AddHealthChecks();
 
 WebApplication app = builder.Build();
 app.UseExceptionHandler(exceptionHandlerApp =>
@@ -61,7 +64,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
     });
 });
 app.MapCarter();
-app.UseHealthChecks("/health");
+app.UseHealthChecks("/health", options: new() { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
 app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())

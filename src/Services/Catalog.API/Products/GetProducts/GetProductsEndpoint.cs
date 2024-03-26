@@ -11,10 +11,11 @@ internal sealed class GetProductsEndpoint : ICarterModule
     /// <param name="app">The endpoint route builder.</param>
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async (ISender sender) =>
+        app.MapGet("/products", async ([AsParameters] GetProductsRequest request, ISender sender) =>
         {
-            GetProductsResult result = await sender.Send(new GetProductsQuery());
-            GetProductsResponse response = result.Adapt<GetProductsResponse>();
+            GetProductsQuery query = request.Adapt<GetProductsQuery>();
+            GetProductsResult result = await sender.Send(query);
+            GetProductsResponse response = new() { Products = result.Products };
             return Results.Ok(response);
         })
         .WithName("GetProducts")

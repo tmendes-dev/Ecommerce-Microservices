@@ -1,4 +1,6 @@
-﻿namespace Catalog.API.Products.GetProducts;
+﻿using Marten.Pagination;
+
+namespace Catalog.API.Products.GetProducts;
 
 /// <summary>
 /// Represents the response containing a list of products.
@@ -8,5 +10,5 @@ internal readonly record struct GetProductsResponse
     /// <summary>
     /// Gets or initializes the list of products.
     /// </summary>
-    public IReadOnlyList<Product> Products { get; init; }
+    public IPagedList<Product> Products { get; init; }
 }
