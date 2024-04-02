@@ -19,7 +19,7 @@ internal sealed class GetProductsEndpoint : ICarterModule
             return Results.Ok(response);
         })
         .WithName("GetProducts")
-        .Produces<GetProductsResponse>(StatusCodes.Status200OK)
+        .Produces<GetProductsResponse>()
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Get Products")
         .WithDescription("Handles requests to retrieve a list of products.")

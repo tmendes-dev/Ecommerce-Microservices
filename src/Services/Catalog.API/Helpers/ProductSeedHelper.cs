@@ -21,9 +21,9 @@ public static class ProductSeedHelper
         // Add sample products
         List<Product> products = [];
         Random random = new();
-        const int NUMBER_OF_PRODUCTS = 500;
+        const int numberOfProducts = 500;
 
-        for (int i = 0; i < NUMBER_OF_PRODUCTS; i++)
+        for (int i = 0; i < numberOfProducts; i++)
             products.Add(new()
             {
                 Id = Guid.NewGuid(),

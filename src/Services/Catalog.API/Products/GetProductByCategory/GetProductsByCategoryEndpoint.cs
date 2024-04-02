@@ -20,7 +20,7 @@ internal sealed class GetProductsByCategoryEndpoint : ICarterModule
         .WithName("GetProductsByCategory")
         .WithSummary("Retrieve Products by Category")
         .WithDescription("Handles requests to retrieve products by their category.")
-        .Produces<GetProductsByCategoryResponse>(StatusCodes.Status200OK)
+        .Produces<GetProductsByCategoryResponse>()
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();

@@ -17,7 +17,7 @@ internal sealed class CreateProductEndpoint : ICarterModule
             CreateProductResult result = await sender.Send(command);
             CreateProductResponse response = result.Adapt<CreateProductResponse>();
 
-            return Results.Created($"/{ProductsConstants.ENDPOINT_PREFIX}/{response.Id}", response);
+            return Results.Created($"/{ProductsConstants.EndpointPrefix}/{response.Id}", response);
         })
         .WithName("CreateProduct")
         .Produces<CreateProductResponse>(StatusCodes.Status201Created)

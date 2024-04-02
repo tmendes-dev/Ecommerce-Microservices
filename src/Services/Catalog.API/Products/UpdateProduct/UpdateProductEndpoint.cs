@@ -27,7 +27,7 @@ internal sealed class UpdateProductEndpoint : ICarterModule
         .WithName("UpdateProduct")
         .WithSummary("Update a product")
         .WithDescription("Handles requests to update a product details.")
-        .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
+        .Produces<UpdateProductResponse>()
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();

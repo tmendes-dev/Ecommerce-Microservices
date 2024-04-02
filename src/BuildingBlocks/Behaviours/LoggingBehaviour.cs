@@ -9,13 +9,12 @@ namespace BuildingBlocks.Behaviours;
 /// <typeparam name="TRequest">The type of request being handled.</typeparam>
 /// <typeparam name="TResponse">The type of response returned by the handler.</typeparam>
 public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TRequest, TResponse>> logger) :
-    IPipelineBehavior<TRequest, TResponse> where TRequest : notnull,
-    IRequest<TResponse> where TResponse : notnull
+    IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> where TResponse : notnull
 {
     /// <summary>
     /// Represents the maximum acceptable response time in seconds.
     /// </summary>
-    private const int MAX_ACCEPTABLE_RESPONSE_TIME = 3;
+    private const int MaxAcceptableResponseTime = 3;
 
     /// <summary>
     /// Handles the request by logging information before and after invoking the next handler in the pipeline.
@@ -36,7 +35,7 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
         timer.Stop();
         TimeSpan timeTaken = timer.Elapsed;
 
-        if (timeTaken.Seconds > MAX_ACCEPTABLE_RESPONSE_TIME)
+        if (timeTaken.Seconds > MaxAcceptableResponseTime)
             logger.LogWarning("[PERFORMANCE] The request {Request} took {TimeTaken}", typeof(TRequest).Name, timeTaken.Seconds);
 
         logger.LogInformation("[END] Handled {Request} with {Response}", typeof(TRequest).Name, response);

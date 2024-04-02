@@ -22,7 +22,7 @@ internal sealed class DeleteProductEndpoint : ICarterModule
         .WithName("MapDelete")
         .WithSummary("Delete Product by Id")
         .WithDescription("Handles requests to delete product by id.")
-        .Produces<GetProductsByCategoryResponse>(StatusCodes.Status200OK)
+        .Produces<GetProductsByCategoryResponse>()
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();

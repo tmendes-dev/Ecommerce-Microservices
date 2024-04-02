@@ -8,5 +8,5 @@ public static class ProductsConstants
     /// <summary>
     /// The prefix used in endpoints related to products.
     /// </summary>
-    public const string ENDPOINT_PREFIX = "products";
+    public const string EndpointPrefix = "products";
 }

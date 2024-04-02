@@ -72,11 +72,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     var appLifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
-    appLifetime.ApplicationStarted.Register(async () =>
-    {
-        using var scope = app.Services.CreateScope();
-        var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
-        await ProductSeedHelper.Seed(session);
-    });
+    appLifetime.ApplicationStarted.Register(async () => await SeedProducts(app));
 }
+
 app.Run();
+
+
+static async Task SeedProducts(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var session = scope.ServiceProvider.GetRequiredService<IDocumentSession>();
+    await ProductSeedHelper.Seed(session);
+}

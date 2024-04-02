@@ -18,7 +18,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
     config.AddOpenBehavior(typeof(LoggingBehaviour<,>));
 });
-builder.Services.AddCarter(configurator: c =>
+builder.Services.AddCarter(configurator: _ =>
 {
 
 });

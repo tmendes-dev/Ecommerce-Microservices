@@ -20,7 +20,7 @@ internal sealed class GetProductByIdEndpoint : ICarterModule
         .WithName("GetProductById")
         .WithSummary("Retrieve Product by ID")
         .WithDescription("Handles requests to retrieve product information by its unique identifier.")
-        .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
+        .Produces<GetProductByIdResponse>()
         .ProducesProblem(StatusCodes.Status404NotFound)
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithOpenApi();
