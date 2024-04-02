@@ -12,49 +12,45 @@ public static class ProductSeedHelper
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Seed(IDocumentSession session)
     {
-        // Check if products exist in the database
         var existingProduct = await session.Query<Product>().FirstOrDefaultAsync();
-
         if (existingProduct is not null)
             return;
 
-        // Add sample products
-        List<Product> products = [];
-        Random random = new();
+        List<Product> products = new List<Product>();
+        Random randomGenerator = new();
         const int numberOfProducts = 500;
 
         for (var i = 0; i < numberOfProducts; i++)
-            products.Add(new Product
-            {
-                Id = Guid.NewGuid(),
-                Name = $"Product {i + 1}",
-                Category = GenerateRandomCategories(random),
-                Description = $"Description for Product {i + 1}",
-                ImageFile = $"/path/to/image{i + 1}.jpg",
-                Price = (decimal)random.NextDouble() * 100 // Random price between 0 and 100
-            });
+        {
+            var product = CreateProduct(i, randomGenerator);
+            products.Add(product);
+        }
 
         products.ForEach(p => session.Store(p));
         await session.SaveChangesAsync();
         Console.WriteLine("Database seeded with sample products.");
     }
 
-    /// <summary>
-    ///     Generates a list of random categories.
-    /// </summary>
-    /// <param name="random">The random number generator.</param>
-    /// <returns>A list of randomly generated categories.</returns>
-    private static List<string> GenerateRandomCategories(Random random)
-    {
-        var categories = new List<string> { "Category A", "Category B", "Category C", "Category D", "Category E" };
-        var randomCategories = new List<string>();
+    private static Product CreateProduct(int productIndex, Random randomGenerator) =>
+        new()
+        {
+            Id = Guid.NewGuid(),
+            Name = $"Product {productIndex + 1}",
+            Category = GenerateRandomCategories(randomGenerator),
+            Description = $"Description for Product {productIndex + 1}",
+            ImageFile = $"/path/to/image{productIndex + 1}.jpg",
+            Price = (decimal)randomGenerator.NextDouble() * 100
+        };
 
-        // Generate random number of categories (up to 3)
-        var numCategories = random.Next(1, 4);
+    private static List<string> GenerateRandomCategories(Random randomGenerator)
+    {
+        List<string> categories =  [ "Category A", "Category B", "Category C", "Category D", "Category E" ];
+        List<string> randomCategories = new ();
+        var numCategories = randomGenerator.Next(1, 4);
+
         for (var i = 0; i < numCategories; i++)
         {
-            // Randomly select categories from the list
-            var index = random.Next(categories.Count);
+            var index = randomGenerator.Next(categories.Count);
             randomCategories.Add(categories[index]);
             categories.RemoveAt(index);
         }
