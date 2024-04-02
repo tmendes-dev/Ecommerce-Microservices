@@ -1,13 +1,12 @@
-﻿
-namespace Catalog.API.Products.CreateProduct;
+﻿namespace Catalog.API.Products.CreateProduct;
 
 /// <summary>
-/// Validator for the CreateProductCommand.
+///     Validator for the CreateProductCommand.
 /// </summary>
 internal class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CreateProductCommandValidator"/> class.
+    ///     Initializes a new instance of the <see cref="CreateProductCommandValidator" /> class.
     /// </summary>
     public CreateProductCommandValidator()
     {

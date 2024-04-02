@@ -8,13 +8,14 @@ using Catalog.API.Products.GetProducts;
 using Catalog.API.Products.UpdateProduct;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
+using Microsoft.OpenApi.Models;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-Assembly programAsm = typeof(Program).Assembly;
-string dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
+var programAsm = typeof(Program).Assembly;
+var dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
 
 builder.Services.AddHealthChecks().AddNpgSql(dbConnectionString);
 builder.Services.AddMarten(options => options.Connection(dbConnectionString)).UseLightweightSessions();
@@ -35,19 +36,19 @@ builder.Services.AddCarter(configurator: c =>
     c.WithModule<DeleteProductEndpoint>();
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", info: new()
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo
 {
     Version = "v1",
     Title = "Catalog API",
     Description = "An ASP.NET Core Web API for managing products items"
 }));
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
-        Exception? exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
         if (exception is null)
             return;
         ProblemDetails problemDetails = new()
@@ -56,7 +57,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
             Status = StatusCodes.Status500InternalServerError,
             Detail = exception.StackTrace
         };
-        ILogger<Program> logger = context.RequestServices.GetService<ILogger<Program>>()!;
+        var logger = context.RequestServices.GetService<ILogger<Program>>()!;
         logger.LogError(exception, exception.Message);
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/problem+json";
@@ -64,7 +65,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
     });
 });
 app.MapCarter();
-app.UseHealthChecks("/health", options: new() { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
+app.UseHealthChecks("/health", options: new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
 app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())

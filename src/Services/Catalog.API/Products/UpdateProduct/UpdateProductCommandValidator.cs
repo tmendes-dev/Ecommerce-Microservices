@@ -1,12 +1,12 @@
 ﻿namespace Catalog.API.Products.UpdateProduct;
 
 /// <summary>
-/// Validator for the UpdateProductCommand.
+///     Validator for the UpdateProductCommand.
 /// </summary>
 internal class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UpdateProductCommandValidator"/> class.
+    ///     Initializes a new instance of the <see cref="UpdateProductCommandValidator" /> class.
     /// </summary>
     public UpdateProductCommandValidator()
     {

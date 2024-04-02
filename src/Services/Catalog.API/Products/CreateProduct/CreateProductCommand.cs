@@ -1,30 +1,32 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
 
 /// <summary>
-/// Represents a command to create a product.
+///     Represents a command to create a product.
 /// </summary>
 internal sealed record CreateProductCommand : ICommand<CreateProductResult>
 {
     /// <summary>
-    /// The name of the product.
+    ///     The name of the product.
     /// </summary>
     public required string Name { get; init; }
+
     /// <summary>
-    /// The categories to which the product belongs.
+    ///     The categories to which the product belongs.
     /// </summary>
     public required List<string> Category { get; init; }
+
     /// <summary>
-    /// The description of the product.
+    ///     The description of the product.
     /// </summary>
     public required string Description { get; init; }
+
     /// <summary>
-    /// The image file of the product.
+    ///     The image file of the product.
     /// </summary>
     public required string ImageFile { get; init; }
+
     /// <summary>
-    /// The price of the product.
+    ///     The price of the product.
     /// </summary>
     public required decimal Price { get; init; }
 }
-
-

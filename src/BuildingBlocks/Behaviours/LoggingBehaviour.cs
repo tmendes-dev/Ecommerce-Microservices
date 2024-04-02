@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using System.Diagnostics;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace BuildingBlocks.Behaviours;
+
 /// <summary>
-/// Represents a behavior for logging requests and responses in the MediatR pipeline.
+///     Represents a behavior for logging requests and responses in the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The type of request being handled.</typeparam>
 /// <typeparam name="TResponse">The type of response returned by the handler.</typeparam>
@@ -12,12 +13,12 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
     IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> where TResponse : notnull
 {
     /// <summary>
-    /// Represents the maximum acceptable response time in seconds.
+    ///     Represents the maximum acceptable response time in seconds.
     /// </summary>
     private const int MaxAcceptableResponseTime = 3;
 
     /// <summary>
-    /// Handles the request by logging information before and after invoking the next handler in the pipeline.
+    ///     Handles the request by logging information before and after invoking the next handler in the pipeline.
     /// </summary>
     /// <param name="request">The request being handled.</param>
     /// <param name="next">The delegate representing the next step in the pipeline.</param>
@@ -30,10 +31,10 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
         Stopwatch timer = new();
         timer.Start();
 
-        TResponse response = await next();
+        var response = await next();
 
         timer.Stop();
-        TimeSpan timeTaken = timer.Elapsed;
+        var timeTaken = timer.Elapsed;
 
         if (timeTaken.Seconds > MaxAcceptableResponseTime)
             logger.LogWarning("[PERFORMANCE] The request {Request} took {TimeTaken}", typeof(TRequest).Name, timeTaken.Seconds);
