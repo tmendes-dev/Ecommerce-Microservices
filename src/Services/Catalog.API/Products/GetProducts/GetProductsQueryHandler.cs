@@ -15,7 +15,7 @@ internal sealed class GetProductsQueryHandler(IDocumentSession session) : IQuery
     /// <returns>The result containing the retrieved products.</returns>
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
-        var products = await session.Query<Product>().ToPagedListAsync(query.PageNumber, query.PageSize, cancellationToken);
+        IPagedList<Product> products = await session.Query<Product>().ToPagedListAsync(query.PageNumber, query.PageSize, cancellationToken);
         return new GetProductsResult { Products = products };
     }
 }

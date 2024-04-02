@@ -13,9 +13,9 @@ internal sealed class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, ISender sender) =>
             {
-                var command = request.Adapt<CreateProductCommand>();
-                var result = await sender.Send(command);
-                var response = result.Adapt<CreateProductResponse>();
+                CreateProductCommand command = request.Adapt<CreateProductCommand>();
+                CreateProductResult result = await sender.Send(command);
+                CreateProductResponse response = result.Adapt<CreateProductResponse>();
 
                 return Results.Created($"/{ProductsConstants.EndpointPrefix}/{response.Id}", response);
             })

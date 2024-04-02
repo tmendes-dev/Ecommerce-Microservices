@@ -12,17 +12,17 @@ public static class ProductSeedHelper
     /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task Seed(IDocumentSession session)
     {
-        var existingProduct = await session.Query<Product>().FirstOrDefaultAsync();
+        Product? existingProduct = await session.Query<Product>().FirstOrDefaultAsync();
         if (existingProduct is not null)
             return;
 
-        List<Product> products = new List<Product>();
+        List<Product> products = new();
         Random randomGenerator = new();
         const int numberOfProducts = 500;
 
-        for (var i = 0; i < numberOfProducts; i++)
+        for (int i = 0; i < numberOfProducts; i++)
         {
-            var product = CreateProduct(i, randomGenerator);
+            Product product = CreateProduct(i, randomGenerator);
             products.Add(product);
         }
 
@@ -31,8 +31,9 @@ public static class ProductSeedHelper
         Console.WriteLine("Database seeded with sample products.");
     }
 
-    private static Product CreateProduct(int productIndex, Random randomGenerator) =>
-        new()
+    private static Product CreateProduct(int productIndex, Random randomGenerator)
+    {
+        return new Product
         {
             Id = Guid.NewGuid(),
             Name = $"Product {productIndex + 1}",
@@ -41,16 +42,17 @@ public static class ProductSeedHelper
             ImageFile = $"/path/to/image{productIndex + 1}.jpg",
             Price = (decimal)randomGenerator.NextDouble() * 100
         };
+    }
 
     private static List<string> GenerateRandomCategories(Random randomGenerator)
     {
-        List<string> categories =  [ "Category A", "Category B", "Category C", "Category D", "Category E" ];
-        List<string> randomCategories = new ();
-        var numCategories = randomGenerator.Next(1, 4);
+        List<string> categories = ["Category A", "Category B", "Category C", "Category D", "Category E"];
+        List<string> randomCategories = new();
+        int numCategories = randomGenerator.Next(1, 4);
 
-        for (var i = 0; i < numCategories; i++)
+        for (int i = 0; i < numCategories; i++)
         {
-            var index = randomGenerator.Next(categories.Count);
+            int index = randomGenerator.Next(categories.Count);
             randomCategories.Add(categories[index]);
             categories.RemoveAt(index);
         }

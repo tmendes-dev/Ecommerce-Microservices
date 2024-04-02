@@ -13,8 +13,8 @@ internal sealed class GetProductByIdEndpoint : ICarterModule
     {
         app.MapGet("/products/{id}", async (Guid id, ISender sender) =>
             {
-                var result = await sender.Send(new GetProductByIdQuery { Id = id });
-                var response = result.Adapt<GetProductByIdResponse>();
+                GetProductByIdResult result = await sender.Send(new GetProductByIdQuery { Id = id });
+                GetProductByIdResponse response = result.Adapt<GetProductByIdResponse>();
                 return response.Product is null ? Results.NotFound(id) : Results.Ok(response);
             })
             .WithName("GetProductById")

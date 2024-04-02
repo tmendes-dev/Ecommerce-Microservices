@@ -13,7 +13,7 @@ internal sealed class GetProductsByCategoryHandler(IDocumentSession session) : I
     /// <returns>The result containing the retrieved products matching the category.</returns>
     public async Task<GetProductsByCategoryResult> Handle(GetProductsByCategoryQuery query, CancellationToken cancellationToken)
     {
-        var products = await session.Query<Product>()
+        IReadOnlyList<Product> products = await session.Query<Product>()
             .Where(p => p.Category.Contains(query.Category)).ToListAsync(cancellationToken);
 
         return new GetProductsByCategoryResult { Products = products };

@@ -1,3 +1,4 @@
+using System.Reflection;
 using BuildingBlocks.Behaviours;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics;
@@ -5,10 +6,10 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var programAsm = typeof(Program).Assembly;
-var dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
+Assembly programAsm = typeof(Program).Assembly;
+string dbConnectionString = builder.Configuration.GetConnectionString("Database")!;
 
 builder.Services.AddHealthChecks().AddNpgSql(dbConnectionString);
 builder.Services.AddMarten(options => options.Connection(dbConnectionString)).UseLightweightSessions();
@@ -28,12 +29,12 @@ builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiIn
     Description = "An ASP.NET Core Web API for managing basket"
 }));
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+        Exception? exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
         if (exception is null)
             return;
         ProblemDetails problemDetails = new()
@@ -42,7 +43,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
             Status = StatusCodes.Status500InternalServerError,
             Detail = exception.StackTrace
         };
-        var logger = context.RequestServices.GetService<ILogger<Program>>()!;
+        ILogger<Program>? logger = context.RequestServices.GetService<ILogger<Program>>()!;
         logger.LogError(exception, exception.Message);
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/problem+json";
@@ -50,7 +51,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
     });
 });
 app.MapCarter();
-app.UseHealthChecks("/health", options: new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
+app.UseHealthChecks("/health", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
 app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())

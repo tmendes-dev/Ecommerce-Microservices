@@ -16,13 +16,13 @@ internal sealed class UpdateProductEndpoint : ICarterModule
         app.MapPut("/products", async (UpdateProductRequest request, ISender sender) =>
             {
                 GetProductByIdQuery query = new() { Id = request.Id };
-                var product = await sender.Send(query);
+                GetProductByIdResult product = await sender.Send(query);
                 if (product.Product is null)
                     return Results.NotFound(request);
 
                 UpdateProductCommand command = new() { Product = request.Adapt<Product>() };
-                var result = await sender.Send(command);
-                var response = result.Adapt<UpdateProductResponse>();
+                UpdateProductCommandResult result = await sender.Send(command);
+                UpdateProductResponse response = result.Adapt<UpdateProductResponse>();
                 return Results.Ok(response);
             })
             .WithName("UpdateProduct")

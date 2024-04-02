@@ -16,8 +16,8 @@ internal sealed class DeleteProductEndpoint : ICarterModule
         app.MapDelete("/products/{id}", async (Guid id, ISender sender) =>
             {
                 DeleteProductCommand command = new() { Id = id };
-                var result = await sender.Send(command);
-                var response = result.Adapt<DeleteProductResponse>();
+                DeleteProductResult result = await sender.Send(command);
+                DeleteProductResponse response = result.Adapt<DeleteProductResponse>();
                 return Results.Ok(response);
             })
             .WithName("MapDelete")

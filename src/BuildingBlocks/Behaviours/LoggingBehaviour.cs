@@ -31,10 +31,10 @@ public class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehaviour<TReq
         Stopwatch timer = new();
         timer.Start();
 
-        var response = await next();
+        TResponse response = await next();
 
         timer.Stop();
-        var timeTaken = timer.Elapsed;
+        TimeSpan timeTaken = timer.Elapsed;
 
         if (timeTaken.Seconds > MaxAcceptableResponseTime)
             logger.LogWarning("[PERFORMANCE] The request {Request} took {TimeTaken}", typeof(TRequest).Name, timeTaken.Seconds);

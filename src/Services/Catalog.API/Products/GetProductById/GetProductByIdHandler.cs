@@ -13,7 +13,7 @@ internal sealed class GetProductByIdHandler(IDocumentSession session) : IQueryHa
     /// <returns>The result containing the retrieved product.</returns>
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
-        var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
+        Product? product = await session.LoadAsync<Product>(query.Id, cancellationToken);
         return new GetProductByIdResult { Product = product };
     }
 }
